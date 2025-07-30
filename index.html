@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1a365d">
+    <title>SALMOS - Sistema de Pregações</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SALMOS">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            flex: 1;
+            padding: 2rem 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .welcome-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .pastor-name {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+
+        .menu-buttons {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-btn {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+
+        .menu-btn .icon {
+            font-size: 2rem;
+        }
+
+        .menu-btn .text {
+            flex: 1;
+        }
+
+        .menu-btn .title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-btn .desc {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .input-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-section.active {
+            display: block;
+        }
+
+        .input-label {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .search-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #1a365d;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .verse-list {
+            display: none;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+
+        .verse-list.active {
+            display: block;
+        }
+
+        .verse-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .verse-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #ffd700;
+        }
+
+        .verse-item.selected {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+        }
+
+        .verse-ref {
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 0.5rem;
+        }
+
+        .verse-text {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            display: none;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #ffd700;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .bible-verse {
+            font-style: italic;
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .generate-sermon {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .generate-sermon.active {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1rem 0.5rem;
+            }
+            
+            .welcome-card {
+                padding: 1.5rem;
+            }
+            
+            .menu-btn {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">📖 SALMOS</div>
+        <div class="subtitle">"Abre os meus olhos, para que veja as maravilhas da tua lei" - Salmos 119:18</div>
+    </div>
+
+    <div class="container">
+        <!-- Tela de Boas-vindas -->
+        <div id="welcome-screen">
+            <div class="welcome-card">
+                <div class="pastor-name">🙌 Bem-vindo, Pastor <span id="pastorName">...</span>!</div>
+                <p>Escolha como deseja criar sua pregação inspiradora:</p>
+            </div>
+
+            <div class="menu-buttons">
+                <div class="menu-btn" onclick="showSearch('tema')">
+                    <div class="icon">❤️</div>
+                    <div class="text">
+                        <div class="title">Buscar por Tema</div>
+                        <div class="desc">Ex: amor, fé, esperança, perdão</div>
+                    </div>
+                </div>
+
+                <div class="menu-btn" onclick="showSearch('versiculo')">
+                    <div class="icon">📚</div>
+                    <div class="text">
+                        <div class="title">Livro e Versículo</div>
+                        <div class="desc">Ex: João 3:16, Salmos 23:1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Busca por Tema -->
+        <div id="tema-section" class="input-section">
+            <button class="back-btn" onclick="showWelcome()">← Voltar</button>
+            <div class="input-label">🔍 Digite o tema da sua pregação:</div>
+            <input type="text" id="tema-input" class="input-field" placeholder="Ex: amor, fé, esperança, perdão...">
+            <button class="search-btn" onclick="searchTheme()">Buscar Versículos</button>
+        </div>
+
+        <!-- Tela de Busca por Versículo -->
+        <div id="versiculo-section" class="input-section">
+            <button class="back-btn" onclick="showWelcome()">← Voltar</button>
+            <div class="input-label">📖 Digite o livro e versículo:</div>
+            <input type="text" id="versiculo-input" class="input-field" placeholder="Ex: João 3:16, Salmos 23:1...">
+            <button class="search-btn" onclick="searchVerse()">Buscar Versículo</button>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <div>Buscando versículos inspiradores...</div>
+        </div>
+
+        <!-- Lista de Versículos -->
+        <div id="verse-results" class="input-section">
+            <button class="back-btn" onclick="showWelcome()">← Nova Busca</button>
+            <div class="input-label">✨ Escolha o versículo para sua pregação:</div>
+            <div id="verse-list" class="verse-list"></div>
+            <div id="generate-section" class="generate-sermon">
+                <button class="search-btn" onclick="generateSermon()">🔥 Gerar Roteiro de Pregação</button>
+            </div>
+        </div>
+
+        <!-- Resultado Final -->
+        <div id="sermon-result" class="input-section">
+            <button class="back-btn" onclick="showWelcome()">← Nova Pregação</button>
+            <div class="input-label">🎯 Seu Roteiro de Pregação:</div>
+            <div id="sermon-content" style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 10px; line-height: 1.6; white-space: pre-line;"></div>
+            <button class="search-btn" onclick="shareSermon()" style="margin-top: 1rem;">📱 Compartilhar Pregação</button>
+        </div>
+    </div>
+
+    <div class="bible-verse">
+        "Lâmpada para os meus pés é tua palavra e luz para o meu caminho" - Salmos 119:105
+    </div>
+
+    <script>
+        // Variáveis globais
+        let currentToken = '';
+        let pastorName = '';
+        let selectedVerse = null;
+        let foundVerses = [];
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            // Registrar Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('service-worker.js');
+            }
+
+            // Extrair token da URL
+            const urlParams = new URLSearchParams(window.location.search);
+            currentToken = urlParams.get('token');
+
+            if (!currentToken) {
+                alert('Token de acesso inválido!');
+                return;
+            }
+
+            // Simular dados do pastor (depois vem do backend)
+            pastorName = 'José Silva';
+            document.getElementById('pastorName').textContent = pastorName;
+        });
+
+        function showWelcome() {
+            hideAllScreens();
+            document.getElementById('welcome-screen').style.display = 'block';
+        }
+
+        function showSearch(type) {
+            hideAllScreens();
+            if (type === 'tema') {
+                document.getElementById('tema-section').classList.add('active');
+                document.getElementById('tema-input').focus();
+            } else {
+                document.getElementById('versiculo-section').classList.add('active');
+                document.getElementById('versiculo-input').focus();
+            }
+        }
+
+        function hideAllScreens() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.querySelectorAll('.input-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('loading').classList.remove('active');
+        }
+
+        function showLoading() {
+            hideAllScreens();
+            document.getElementById('loading').classList.add('active');
+        }
+
+        async function searchTheme() {
+            const tema = document.getElementById('tema-input').value.trim();
+            if (!tema) {
+                alert('Por favor, digite um tema!');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Simular busca por tema (depois conecta com n8n)
+                await simulateAPICall();
+                
+                // Simular múltiplos versículos encontrados
+                foundVerses = [
+                    { ref: 'João 3:16', text: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito...' },
+                    { ref: '1 Coríntios 13:4', text: 'O amor é sofredor, é benigno; o amor não é invejoso...' },
+                    { ref: '1 João 4:8', text: 'Aquele que não ama não conhece a Deus; porque Deus é amor.' }
+                ];
+
+                showVerseSelection();
+            } catch (error) {
+                alert('Erro ao buscar versículos. Tente novamente.');
+                showWelcome();
+            }
+        }
+
+        async function searchVerse() {
+            const versiculo = document.getElementById('versiculo-input').value.trim();
+            if (!versiculo) {
+                alert('Por favor, digite um versículo!');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Simular busca por versículo específico
+                await simulateAPICall();
+                
+                foundVerses = [
+                    { ref: versiculo, text: 'Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.' }
+                ];
+
+                // Para versículo específico, seleciona automaticamente
+                selectedVerse = foundVerses[0];
+                generateSermon();
+            } catch (error) {
+                alert('Erro ao buscar versículo. Tente novamente.');
+                showWelcome();
+            }
+        }
+
+        function showVerseSelection() {
+            hideAllScreens();
+            document.getElementById('verse-results').classList.add('active');
+            
+            const verseList = document.getElementById('verse-list');
+            verseList.innerHTML = '';
+            verseList.classList.add('active');
+
+            foundVerses.forEach((verse, index) => {
+                const verseDiv = document.createElement('div');
+                verseDiv.className = 'verse-item';
+                verseDiv.onclick = () => selectVerse(index);
+                verseDiv.innerHTML = `
+                    <div class="verse-ref">${verse.ref}</div>
+                    <div class="verse-text">${verse.text}</div>
+                `;
+                verseList.appendChild(verseDiv);
+            });
+        }
+
+        function selectVerse(index) {
+            // Remover seleção anterior
+            document.querySelectorAll('.verse-item').forEach(el => el.classList.remove('selected'));
+            
+            // Selecionar novo versículo
+            document.querySelectorAll('.verse-item')[index].classList.add('selected');
+            selectedVerse = foundVerses[index];
+            
+            // Mostrar botão de gerar pregação
+            document.getElementById('generate-section').classList.add('active');
+        }
+
+        async function generateSermon() {
+            if (!selectedVerse) {
+                alert('Selecione um versículo primeiro!');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                // Simular geração de roteiro (depois conecta com n8n)
+                await simulateAPICall();
+
+                const sermonContent = `🔥 ROTEIRO DE PREGAÇÃO
+
+📖 VERSÍCULO BASE: ${selectedVerse.ref}
+"${selectedVerse.text}"
+
+🎯 TEMA: O Amor Incondicional de Deus
+
+📋 ESTRUTURA DA PREGAÇÃO:
+
+I. INTRODUÇÃO - O Maior Amor da História
+• Contextualizar o amor humano vs amor divino
+• O amor de Deus é único e transformador
+
+II. DESENVOLVIMENTO
+1️⃣ A NATUREZA DO AMOR DE DEUS
+   • Incondicional e eterno
+   • Demonstrado através do sacrifício
+
+2️⃣ O PROPÓSITO DO AMOR DE DEUS  
+   • Salvação para toda humanidade
+   • Vida eterna como dádiva
+
+3️⃣ A RESPOSTA AO AMOR DE DEUS
+   • Fé como única exigência
+   • Transformação de vida
+
+III. CONCLUSÃO - Vivendo no Amor
+• Aplicação prática: Como amar como Deus ama
+• Desafio: Compartilhar este amor
+
+🙏 ORAÇÃO FINAL
+Senhor, que possamos compreender a profundidade do Teu amor e vivê-lo em nossa jornada diária.
+
+💡 SUGESTÕES ADICIONAIS:
+• Ilustração: História de amor sacrificial
+• Música sugerida: "Grande é o Senhor"
+• Versículo para memorização: João 3:16`;
+
+                document.getElementById('sermon-content').textContent = sermonContent;
+                hideAllScreens();
+                document.getElementById('sermon-result').classList.add('active');
+
+            } catch (error) {
+                alert('Erro ao gerar roteiro. Tente novamente.');
+                showWelcome();
+            }
+        }
+
+        function shareSermon() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Roteiro de Pregação - SALMOS',
+                    text: document.getElementById('sermon-content').textContent
+                });
+            } else {
+                // Fallback para copiar
+                navigator.clipboard.writeText(document.getElementById('sermon-content').textContent);
+                alert('Roteiro copiado para área de transferência!');
+            }
+        }
+
+        function simulateAPICall() {
+            return new Promise(resolve => setTimeout(resolve, 2000));
+        }
+
+        // Atalhos de teclado
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const activeInput = document.querySelector('.input-section.active input:focus');
+                if (activeInput) {
+                    if (activeInput.id === 'tema-input') {
+                        searchTheme();
+                    } else if (activeInput.id === 'versiculo-input') {
+                        searchVerse();
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
