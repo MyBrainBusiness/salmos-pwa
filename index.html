@@ -651,7 +651,8 @@
         const dataAtual = new Date();
         const dataFormatada = dataAtual.toISOString().split('T')[0]; // YYYY-MM-DD
         const horaFormatada = dataAtual.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-        const nomeArquivo = `roteiro-${userName.toLowerCase().replace(/\s+/g, '-')}-${dataFormatada}-${horaFormatada}.html`;
+        const cpfSuffix = cpf ? cpf.replace(/\D/g, '').slice(-4) : 'xxxx';
+        const nomeArquivo = `roteiro-${userName.toLowerCase().replace(/\s+/g, '-')}-${cpfSuffix}-${dataFormatada}-${horaFormatada}.html`;
         
         // 3. Inserir o conteúdo do roteiro no template
         // Criar uma versão standalone que já processa o roteiro ao carregar
