@@ -558,6 +558,7 @@
                 });
 
                 const result = await response.json();
+                console.log('Resposta da validação:', result);
 
                 if (!result.sucesso || result.sucesso === 'false') {
                     showSecurityError(result.mensagem || 'Token inválido ou expirado');
