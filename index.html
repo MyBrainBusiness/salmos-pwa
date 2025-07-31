@@ -536,12 +536,17 @@
             userCPF = urlParams.get('cpf') || '';
 
             if (!currentToken) {
-                showSecurityError('Token de acesso não fornecido!');
-                return;
+                //showSecurityError('Token de acesso não fornecido!');
+                //return;
+                console.log('Sem token, mas continuando com dados da URL');
             }
 
+            // Token não precisa mais ser validado - já foi validado no N8N
+            setupPastorGreeting();
+            showWelcome();
+            
             // Validar token imediatamente
-            validateTokenSecurity();
+            //validateTokenSecurity();
 
             // Auto-resize para textareas
             setupAutoResize();
