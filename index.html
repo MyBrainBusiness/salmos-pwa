@@ -866,6 +866,8 @@ async function exibirRoteiro(roteiro) {
                 const result = await response.json();
 
                 console.log('Resultado completo da API:', result);
+                console.log('Resposta completa do N8N:', result);
+                console.log('Status HTTP:', response.status);
                 console.log('Tipo de result.versiculos:', typeof result.versiculos);
                 
                 if (result.versiculos && result.versiculos.length > 0) {
