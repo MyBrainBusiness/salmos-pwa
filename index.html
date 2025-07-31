@@ -547,6 +547,8 @@
 
         // Validação de segurança do token
         async function validateTokenSecurity() {
+            console.log('Token recebido:', currentToken);
+            console.log('Usuario:', currentUserId || pastorName);
             try {
                 const response = await fetch('https://n8neditor.mybrain.business/webhook/validar-token', {
                     method: 'POST',
