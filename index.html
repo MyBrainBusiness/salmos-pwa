@@ -458,7 +458,7 @@
                 <div class="back-button" onclick="showWelcome()">← Voltar</div>
                 <div class="input-label">🔍 Digite o tema da sua pregação:</div>
                 <textarea id="theme-input" class="input-field" placeholder="Ex: amor, fé, esperança, perdão..." rows="1"></textarea>
-                <button class="primary-button" onclick="me()">Buscar Versículos</button>
+                <button class="primary-button" onclick="searchTheme()">Buscar Versículos</button>
             </div>
         </div>
 
@@ -894,7 +894,7 @@ async function exibirRoteiro(roteiro) {
                     body: JSON.stringify({ 
                         termo: verse,
                         tipo: 'L',
-                        token: currentToken,
+                        //token: currentToken,
                         usuario: currentUserId || pastorName
                     })
                 });
@@ -964,7 +964,7 @@ async function exibirRoteiro(roteiro) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
                         versiculo: selectedVerse,
-                        token: currentToken,
+                        //token: currentToken,
                         usuario: currentUserId || pastorName
                     })
                 });
