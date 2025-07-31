@@ -521,7 +521,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Service Worker
             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('service-worker.js');
+                navigator.serviceWorker.register('service-worker.js', {
+                scope: '/salmos-pwa/'
+                });
             }
 
             showLoading('Validando acesso seguro...');
