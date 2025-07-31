@@ -961,7 +961,7 @@ async function exibirRoteiro(roteiro) {
                 const result = await response.json();
                 
                 if (result.roteiro) {
-                    showResult(result.roteiro);
+                    exibirRoteiro(result.roteiro);
                 } else {
                     alert('Erro ao gerar roteiro. Tente novamente.');
                     showWelcome();
