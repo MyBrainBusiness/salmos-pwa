@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roteiro de Pregação - SALMOS</title>
+    <style>
+        /* Reset e Variáveis CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --accent-color: #f39c12;
+            --bg-light: #ecf0f1;
+            --bg-section: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-hover: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        /* Tipografia Base */
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Container Principal */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header com Logo */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #34495e 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin: -20px -20px 30px -20px;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        /* Seções do Roteiro */
+        .section {
+            background: var(--bg-section);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Títulos com Emojis */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+
+        /* Subtítulos */
+        .subtitle-section {
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+
+        /* Pontos Numerados */
+        .numbered-point {
+            background: linear-gradient(to right, var(--bg-light), transparent);
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid var(--accent-color);
+            border-radius: 0 8px 8px 0;
+        }
+
+        .numbered-point h3 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Listas com Bullets Personalizados */
+        .custom-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .custom-list li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .custom-list li:before {
+            content: "•";
+            position: absolute;
+            left: 10px;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Versículo Base - Destaque Especial */
+        .verse-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.1rem;
+            font-style: italic;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verse-box:before {
+            content: """;
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 4rem;
+            color: rgba(231, 76, 60, 0.1);
+            font-family: Georgia, serif;
+        }
+
+        /* Metáfora Principal - Card Especial */
+        .metaphor-card {
+            background: linear-gradient(135deg, var(--secondary-color), #c0392b);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.3);
+        }
+
+        /* Oração - Estilo Especial */
+        .prayer-section {
+            background: linear-gradient(to bottom, #ffeaa7, #fdcb6e);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px dashed var(--accent-color);
+            font-style: italic;
+        }
+
+        /* Recursos Complementares - Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .resource-card {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .resource-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        /* Botões de Ação */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-email {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-email:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-print {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 20px 15px;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animações Suaves */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .header {
+                background: none;
+                color: var(--primary-color);
+                border-bottom: 2px solid var(--primary-color);
+            }
+            
+            .action-buttons {
+                display: none;
+            }
+            
+            .section {
+                box-shadow: none;
+                border: 1px solid #ddd;
+                break-inside: avoid;
+            }
+        }
+
+        /* Texto em Negrito */
+        strong {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Objetivo Final - Destaque */
+        .final-objective {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>SALMOS</h1>
+            <p class="subtitle">Sistema de Apoio Litúrgico e Mensagens para Orientação Sacerdotal</p>
+        </div>
+
+        <!-- Conteúdo do Roteiro será inserido aqui -->
+        <div id="roteiro-content">
+            <!-- O conteúdo processado do roteiro será inserido dinamicamente aqui -->
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+            <button class="btn btn-whatsapp" onclick="compartilharWhatsApp()">
+                <span>📱</span> Compartilhar no WhatsApp
+            </button>
+            <button class="btn btn-email" onclick="compartilharEmail()">
+                <span>✉️</span> Enviar por Email
+            </button>
+            <button class="btn btn-print" onclick="window.print()">
+                <span>🖨️</span> Imprimir
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>SALMOS © 2024 - Pregação Transformadora</p>
+            <p><em>"Prega a palavra, insta a tempo e fora de tempo" - 2 Timóteo 4:2</em></p>
+        </div>
+    </div>
+
+    <script>
+        // Função para processar o conteúdo do roteiro
+        function processarRoteiro(conteudoRoteiro) {
+            if (!conteudoRoteiro) {
+                document.getElementById('roteiro-content').innerHTML = '<p>Carregando roteiro...</p>';
+                return;
+            }
+
+            let html = '';
+            const linhas = conteudoRoteiro.split('\n');
+            let dentroDeSecao = false;
+            let conteudoSecao = '';
+            let tituloSecao = '';
+            
+            for (let i = 0; i < linhas.length; i++) {
+                const linha = linhas[i].trim();
+                
+                // Pular linhas vazias
+                if (!linha) continue;
+                
+                // Detectar títulos principais com emojis
+                if (linha.match(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]/)) {
+                    // Fechar seção anterior se existir
+                    if (dentroDeSecao && conteudoSecao) {
+                        html += criarSecao(tituloSecao, conteudoSecao);
+                        conteudoSecao = '';
+                    }
+                    
+                    // Processar tipos especiais de seções
+                    if (linha.includes('VERSÍCULO BASE:')) {
+                        // Próxima linha deve ser o versículo
+                        const versiculo = linhas[i + 1] ? linhas[i + 1].trim() : '';
+                        html += criarVersiculoBox(versiculo);
+                        i++; // Pular a próxima linha
+                        dentroDeSecao = false;
+                    } else if (linha.includes('METÁFORA PRINCIPAL:')) {
+                        // Coletar todo o conteúdo da metáfora
+                        let metafora = '';
+                        i++;
+                        while (i < linhas.length && !linhas[i].match(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]/) && !linhas[i].includes('**')) {
+                            if (linhas[i].trim()) metafora += linhas[i].trim() + ' ';
+                            i++;
+                        }
+                        i--; // Voltar uma linha
+                        html += criarMetaforaCard(metafora.trim());
+                        dentroDeSecao = false;
+                    } else if (linha.includes('ORAÇÃO PASTORAL:')) {
+                        // Coletar oração
+                        let oracao = '';
+                        i++;
+                        while (i < linhas.length && !linhas[i].match(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]/) && !linhas[i].includes('**')) {
+                            if (linhas[i].trim()) oracao += linhas[i].trim() + ' ';
+                            i++;
+                        }
+                        i--; // Voltar uma linha
+                        html += criarOracaoBox(oracao.trim());
+                        dentroDeSecao = false;
+                    } else if (linha.includes('OBJETIVO FINAL:')) {
+                        // Coletar objetivo
+                        let objetivo = '';
+                        i++;
+                        while (i < linhas.length && !linhas[i].match(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]/)) {
+                            if (linhas[i].trim()) objetivo += linhas[i].trim() + ' ';
+                            i++;
+                        }
+                        i--; // Voltar uma linha
+                        html += criarObjetivoFinal(objetivo.trim());
+                        dentroDeSecao = false;
+                    } else {
+                        // Nova seção normal
+                        tituloSecao = linha;
+                        dentroDeSecao = true;
+                    }
+                }
+                // Detectar subtítulos numerados
+                else if (linha.match(/^[1️⃣2️⃣3️⃣]/)) {
+                    conteudoSecao += `<div class="numbered-point"><h3>${processarTexto(linha)}</h3><ul class="custom-list">`;
+                }
+                // Detectar bullets
+                else if (linha.startsWith('•')) {
+                    conteudoSecao += `<li>${processarTexto(linha.substring(1).trim())}</li>`;
+                }
+                // Detectar subtítulos com **
+                else if (linha.startsWith('**') && linha.endsWith('**')) {
+                    // Verificar se é um subtítulo de seção
+                    if (linha.includes('I.') || linha.includes('II.') || linha.includes('III.')) {
+                        conteudoSecao += `<h3 class="subtitle-section">${processarTexto(linha)}</h3>`;
+                    } else {
+                        conteudoSecao += `<p><strong>${processarTexto(linha)}</strong></p>`;
+                    }
+                }
+                // Texto normal
+                else {
+                    if (dentroDeSecao) {
+                        // Fechar lista se necessário
+                        if (conteudoSecao.includes('<ul class="custom-list">') && !conteudoSecao.endsWith('</ul>')) {
+                            conteudoSecao += '</ul></div>';
+                        }
+                        conteudoSecao += `<p>${processarTexto(linha)}</p>`;
+                    }
+                }
+            }
+            
+            // Fechar última seção se existir
+            if (dentroDeSecao && conteudoSecao) {
+                html += criarSecao(tituloSecao, conteudoSecao);
+            }
+            
+            document.getElementById('roteiro-content').innerHTML = html;
+        }
+        
+        // Funções auxiliares para criar elementos especiais
+        function criarSecao(titulo, conteudo) {
+            const emoji = titulo.match(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]/)?.[0] || '';
+            const textoTitulo = titulo.replace(/^[🔥📖🎯🌟📋🙏💡⚡🏠📱]\s*/, '').replace(/[*:]/g, '');
+            
+            return `
+                <div class="section">
+                    <h2 class="section-title">
+                        ${emoji ? `<span class="emoji">${emoji}</span>` : ''}
+                        ${textoTitulo}
+                    </h2>
+                    ${conteudo}
+                </div>
+            `;
+        }
+        
+        function criarVersiculoBox(versiculo) {
+            return `
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="emoji">📖</span>
+                        VERSÍCULO BASE
+                    </h2>
+                    <div class="verse-box">
+                        ${processarTexto(versiculo)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function criarMetaforaCard(metafora) {
+            return `
+                <div class="metaphor-card">
+                    <h3>🌟 METÁFORA PRINCIPAL</h3>
+                    <p>${processarTexto(metafora)}</p>
+                </div>
+            `;
+        }
+        
+        function criarOracaoBox(oracao) {
+            return `
+                <div class="section">
+                    <h2 class="section-title">
+                        <span class="emoji">🙏</span>
+                        ORAÇÃO PASTORAL
+                    </h2>
+                    <div class="prayer-section">
+                        ${processarTexto(oracao)}
+                    </div>
+                </div>
+            `;
+        }
+        
+        function criarObjetivoFinal(objetivo) {
+            return `
+                <div class="final-objective">
+                    <h3>🎯 OBJETIVO FINAL</h3>
+                    <p>${processarTexto(objetivo)}</p>
+                </div>
+            `;
+        }
+        
+        // Processar formatação inline (negrito, itálico, etc)
+        function processarTexto(texto) {
+            return texto
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\[(.*?)\]/g, '<span class="highlight">$1</span>');
+        }
+
+        // Funções de compartilhamento
+        function compartilharWhatsApp() {
+            const texto = encodeURIComponent("Confira este roteiro de pregação do SALMOS!");
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://wa.me/?text=${texto}%20${url}`, '_blank');
+        }
+
+        function compartilharEmail() {
+            const assunto = encodeURIComponent("Roteiro de Pregação - SALMOS");
+            const corpo = encodeURIComponent("Confira este roteiro de pregação:\n\n" + window.location.href);
+            window.location.href = `mailto:?subject=${assunto}&body=${corpo}`;
+        }
+
+        // Exemplo de uso (será substituído pela integração real)
+        window.onload = function() {
+            // Aqui virá a integração com o conteúdo real do roteiro
+            processarRoteiro("");
+        };
+    </script>
+</body>
+</html>
