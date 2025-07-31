@@ -857,6 +857,9 @@ async function exibirRoteiro(roteiro) {
                 });
 
                 const result = await response.json();
+
+                console.log('Resultado completo da API:', result);
+                console.log('Tipo de result.versiculos:', typeof result.versiculos);
                 
                 if (result.versiculos && result.versiculos.length > 0) {
                     foundVerses = result.versiculos;
