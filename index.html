@@ -636,6 +636,197 @@
             document.getElementById('progress-section').style.display = 'none';
         }
 
+        // Adicionar esta função ao PWA principal
+
+        async function salvarRoteiroNoGitHub(conteudoRoteiro, userName) {
+        try {
+        // 1. Buscar o template base do GitHub
+        const templateUrl = 'https://raw.githubusercontent.com/mybrainbusiness/salmos-pwa/main/roteiro-template.html';
+        const responseTemplate = await fetch(templateUrl);
+        let templateHTML = await responseTemplate.text();
+        
+        // 2. Gerar nome único para o arquivo
+        const dataAtual = new Date();
+        const dataFormatada = dataAtual.toISOString().split('T')[0]; // YYYY-MM-DD
+        const horaFormatada = dataAtual.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
+        const nomeArquivo = `roteiro-${userName.toLowerCase().replace(/\s+/g, '-')}-${dataFormatada}-${horaFormatada}.html`;
+        
+        // 3. Inserir o conteúdo do roteiro no template
+        // Criar uma versão standalone que já processa o roteiro ao carregar
+        const scriptProcessamento = `
+        <script>
+            // Conteúdo do roteiro embutido
+            const conteudoRoteiro = \`${conteudoRoteiro.replace(/`/g, '\\`')}\`;
+            
+            // Processar automaticamente ao carregar a página
+            window.onload = function() {
+                processarRoteiro(conteudoRoteiro);
+                
+                // Adicionar informações do pastor e data no header
+                const headerInfo = document.createElement('div');
+                headerInfo.style.cssText = 'background: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-top: 10px;';
+                headerInfo.innerHTML = \`
+                    <p style="margin: 5px 0;">Pastor(a): <strong>${userName}</strong></p>
+                    <p style="margin: 5px 0;">Data: <strong>${dataAtual.toLocaleDateString('pt-BR')}</strong></p>
+                    <p style="margin: 5px 0;">Hora: <strong>${dataAtual.toLocaleTimeString('pt-BR')}</strong></p>
+                \`;
+                document.querySelector('.header').appendChild(headerInfo);
+            };
+        </script>
+        `;
+        
+        // 4. Substituir o script de exemplo pelo script com conteúdo real
+        templateHTML = templateHTML.replace(
+            '// Exemplo de uso (será substituído pela integração real)\n        window.onload = function() {\n            // Aqui virá a integração com o conteúdo real do roteiro\n            processarRoteiro("");\n        };',
+            scriptProcessamento.trim()
+        );
+        
+        // 5. Salvar no GitHub usando a API
+        const githubToken = 'SEU_GITHUB_TOKEN'; // Você precisará configurar isso
+        const githubRepo = 'mybrainbusiness/salmos-pwa';
+        const githubPath = `roteiros/${nomeArquivo}`;
+        
+        const githubApiUrl = `https://api.github.com/repos/${githubRepo}/contents/${githubPath}`;
+        
+        const fileContent = btoa(unescape(encodeURIComponent(templateHTML))); // Encode base64
+        
+        const githubResponse = await fetch(githubApiUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${githubToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: `Adicionar roteiro: ${userName} - ${dataFormatada}`,
+                content: fileContent,
+                branch: 'main'
+            })
+        });
+        
+        if (githubResponse.ok) {
+            const result = await githubResponse.json();
+            const urlRoteiro = `https://mybrainbusiness.github.io/salmos-pwa/roteiros/${nomeArquivo}`;
+            
+            console.log('Roteiro salvo com sucesso:', urlRoteiro);
+            return {
+                sucesso: true,
+                url: urlRoteiro,
+                nomeArquivo: nomeArquivo
+            };
+        } else {
+            throw new Error('Erro ao salvar no GitHub');
+        }
+        
+    } catch (erro) {
+        console.error('Erro ao salvar roteiro:', erro);
+        return {
+            sucesso: false,
+            erro: erro.message
+        };
+    }
+}
+
+// Função modificada para exibir roteiro que também salva no GitHub
+async function exibirRoteiro(roteiro) {
+    // Extrair userName da URL ou do localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const userName = urlParams.get('userName') || localStorage.getItem('userName') || 'Pastor';
+    
+    // 1. Salvar o roteiro no GitHub
+    const resultadoSalvamento = await salvarRoteiroNoGitHub(roteiro, userName);
+    
+    if (resultadoSalvamento.sucesso) {
+        // 2. Abrir o roteiro salvo em nova aba
+        window.open(resultadoSalvamento.url, '_blank');
+        
+        // 3. Mostrar mensagem de sucesso
+        const mensagemSucesso = document.createElement('div');
+        mensagemSucesso.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #27ae60;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 1000;
+            text-align: center;
+        `;
+        mensagemSucesso.innerHTML = `
+            <h3>✅ Roteiro Salvo com Sucesso!</h3>
+            <p>O roteiro foi aberto em uma nova aba.</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">Arquivo: ${resultadoSalvamento.nomeArquivo}</p>
+            <button onclick="this.parentElement.remove()" style="
+                margin-top: 15px;
+                padding: 10px 20px;
+                background: white;
+                color: #27ae60;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                font-weight: bold;
+            ">Fechar</button>
+        `;
+        document.body.appendChild(mensagemSucesso);
+        
+        // Remover mensagem após 5 segundos
+        setTimeout(() => {
+            mensagemSucesso.remove();
+        }, 5000);
+        
+    } else {
+        // Em caso de erro, mostrar o roteiro localmente
+        console.error('Erro ao salvar no GitHub, exibindo localmente');
+        
+        // Criar um modal ou página temporária para mostrar o roteiro
+        const modalRoteiro = document.createElement('div');
+        modalRoteiro.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            overflow: auto;
+        `;
+        modalRoteiro.innerHTML = `
+            <div style="max-width: 800px; margin: 0 auto; padding: 20px;">
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #e74c3c;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    z-index: 1001;
+                ">Fechar</button>
+                <div id="roteiro-temporario"></div>
+            </div>
+        `;
+        document.body.appendChild(modalRoteiro);
+        
+        // Carregar o template e processar
+        fetch('https://raw.githubusercontent.com/mybrainbusiness/salmos-pwa/main/roteiro-template.html')
+            .then(response => response.text())
+            .then(template => {
+                // Inserir apenas o conteúdo relevante do template
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(template, 'text/html');
+                const container = doc.querySelector('.container').innerHTML;
+                
+                document.getElementById('roteiro-temporario').innerHTML = container;
+                
+                // Processar o roteiro
+                processarRoteiro(roteiro);
+            });
+    }
+}
         // Search functions
         async function searchTheme() {
             const theme = document.getElementById('theme-input').value.trim();
