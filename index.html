@@ -531,6 +531,7 @@
             currentToken = urlParams.get('token');
             pastorName = urlParams.get('userName') || '';
             currentUserId = urlParams.get('userId') || '';
+            userCPF = urlParams.get('cpf') || '';
 
             if (!currentToken) {
                 showSecurityError('Token de acesso não fornecido!');
