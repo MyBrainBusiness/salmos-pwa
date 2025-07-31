@@ -736,7 +736,7 @@ async function exibirRoteiro(roteiro) {
     const userName = urlParams.get('userName') || localStorage.getItem('userName') || 'Pastor';
     
     // 1. Salvar o roteiro no GitHub
-    const resultadoSalvamento = await salvarRoteiroNoGitHub(roteiro, userName);
+    const resultadoSalvamento = await salvarRoteiroNoGitHub(roteiro, userName, userCPF);
     
     if (resultadoSalvamento.sucesso) {
         // 2. Abrir o roteiro salvo em nova aba
