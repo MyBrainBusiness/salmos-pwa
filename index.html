@@ -866,7 +866,7 @@ async function exibirRoteiro(roteiro) {
     showLoading('Buscando versículos sobre "' + theme + '"...');
 
     try {
-        const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-buscar', {
+        const response = await fetch('https://n8nwebhook.mybrain.business/webhook/salmos-buscar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
