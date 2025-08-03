@@ -603,9 +603,17 @@
 
         // Navigation
         function showWelcome() {
+            console.log('showWelcome() chamada!');
+            console.log('Todas as telas antes:', document.querySelectorAll('.screen'));
+    
             hideAllScreens();
+    
+            console.log('Welcome screen existe?', document.getElementById('welcome-screen'));
+    
             document.getElementById('welcome-screen').classList.add('active');
             hideProgress();
+    
+            console.log('Welcome screen ativa?', document.getElementById('welcome-screen').classList.contains('active'));
         }
 
         function showThemeSearch() {
@@ -629,7 +637,12 @@
         }
 
         function hideAllScreens() {
-            document.querySelectorAll('.screen').forEach(screen => {
+            console.log('hideAllScreens() chamada!');
+            const screens = document.querySelectorAll('.screen');
+            console.log('Telas encontradas:', screens.length);
+    
+            screens.forEach(screen => {
+                console.log('Removendo active de:', screen.id);
                 screen.classList.remove('active');
             });
         }
