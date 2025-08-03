@@ -955,7 +955,7 @@ async function exibirRoteiro(roteiro) {
                 verseDiv.className = 'verse-item';
                 verseDiv.onclick = () => selectVerse(index);
                 verseDiv.innerHTML = `
-                    <div class="verse-reference">${verse.reference || verse.ref}</div>
+                    <div class="verse-reference">${verse.bookverse}</div>
                     <div class="verse-text">${verse.text}</div>
                 `;
                 verseList.appendChild(verseDiv);
