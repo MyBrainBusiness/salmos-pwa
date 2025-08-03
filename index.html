@@ -876,6 +876,8 @@ async function exibirRoteiro(roteiro) {
             })
         });
 
+        console.log('Resposta bruta do servidor:', response);
+        
         // Verifica se a requisição foi bem-sucedida (status 200)
         if (!response.ok) {
             throw new Error('Erro de rede: ' + response.statusText);
