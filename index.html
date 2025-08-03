@@ -889,6 +889,7 @@ async function exibirRoteiro(roteiro) {
         // Verifica se a resposta contém o array de versículos e se ele não está vazio
         if (result.success && result.versiculos && Array.isArray(result.versiculos) && result.versiculos.length > 0) {
             foundVerses = result.versiculos;
+            console.log('Versículos recebidos:', foundVerses);
             showVerseSelection(); // Chama a função para mostrar a tela de seleção
         } else {
             // Se a busca não retornou versículos ou houve um erro na resposta
