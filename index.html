@@ -876,7 +876,17 @@ async function exibirRoteiro(roteiro) {
             })
         });
 
-        const result = await response.json();
+        const text = await response.text();
+        console.log('Response text:', text);
+
+        let result;
+        try {
+            result = JSON.parse(text);
+        } catch (e) {
+            console.log('Não é JSON válido, provavelmente erro 503');
+            showErrorMessage('Sistema temporariamente indisponível. Tente novamente em alguns minutos.');
+            return;
+        }
         console.log('=== DEBUG COMPLETO ===');
         console.log('result.success:', result.success);
         console.log('typeof result.success:', typeof result.success);
