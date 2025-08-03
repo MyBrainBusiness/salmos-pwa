@@ -876,7 +876,18 @@ async function exibirRoteiro(roteiro) {
         });
 
         const result = await response.json();
+        const result = await response.json();
+        console.log('=== DEBUG COMPLETO ===');
+        console.log('result.success:', result.success);
+        console.log('typeof result.success:', typeof result.success);
+        console.log('result.success === false:', result.success === false);
+        console.log('!result.success:', !result.success);
+        console.log('result.message existe?:', !!result.message);
+        console.log('result.mensagem existe?:', !!result.mensagem);
+        console.log('result.versiculos existe?:', !!result.versiculos);
+        console.log('result.versiculos.length:', result.versiculos?.length);
         console.log('Resultado completo da API:', result);
+        
 
         // NOVO: Verificar se há erro primeiro
         if (result.success === false || (!result.success && result.message)) {
