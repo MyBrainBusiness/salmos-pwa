@@ -879,9 +879,9 @@ async function exibirRoteiro(roteiro) {
         console.log('Resultado completo da API:', result);
 
         // NOVO: Verificar se há erro primeiro
-        if (result.message && !result.success) {
+        if (result.success === false || (!result.success && result.message)) {
             // Erro da API (503, etc)
-            showErrorMessage(result.message);
+            showErrorMessage(result.message || result.mensagem || 'Erro desconhecido');
             return;
         }
 
