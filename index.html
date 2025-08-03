@@ -881,6 +881,7 @@ async function exibirRoteiro(roteiro) {
 
         let result;
         try {
+            console.log('Tentando fazer JSON.parse do texto...');
             result = JSON.parse(text);
         } catch (e) {
             console.log('Não é JSON válido, provavelmente erro 503');
