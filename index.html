@@ -854,8 +854,8 @@ async function exibirRoteiro(roteiro) {
     }
 }
         // Search functions
-       async function searchTheme() {
-           console.log('🔥 FUNÇÃO searchTheme() INICIADA!');
+      async function searchTheme() {
+    console.log('🔥 FUNÇÃO searchTheme() INICIADA!');
     const theme = document.getElementById('theme-input').value.trim();
     if (!theme) {
         alert('Por favor, digite um tema!');
@@ -869,50 +869,28 @@ async function exibirRoteiro(roteiro) {
         const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-buscar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 termo: theme,
                 tipo: 'T',
                 usuario: currentUserId || pastorName
             })
         });
 
-        const text = await response.text();
-        console.log('Response text:', text);
-
-        let result;
-        try {
-            console.log('Tentando fazer JSON.parse do texto...');
-            result = JSON.parse(text);
-        } catch (e) {
-            console.log('Não é JSON válido, provavelmente erro 503');
-            showErrorMessage('Sistema temporariamente indisponível. Tente novamente em alguns minutos.');
-            return;
-        }
-        console.log('=== DEBUG COMPLETO ===');
-        console.log('result.success:', result.success);
-        console.log('typeof result.success:', typeof result.success);
-        console.log('result.success === false:', result.success === false);
-        console.log('!result.success:', !result.success);
-        console.log('result.message existe?:', !!result.message);
-        console.log('result.mensagem existe?:', !!result.mensagem);
-        console.log('result.versiculos existe?:', !!result.versiculos);
-        console.log('result.versiculos.length:', result.versiculos?.length);
-        console.log('Resultado completo da API:', result);
-        
-
-        // NOVO: Verificar se há erro primeiro
-        if (result.success === false || (!result.success && result.message)) {
-            // Erro da API (503, etc)
-            showErrorMessage(result.message || result.mensagem || 'Erro desconhecido');
-            return;
+        // Verifica se a requisição foi bem-sucedida (status 200)
+        if (!response.ok) {
+            throw new Error('Erro de rede: ' + response.statusText);
         }
 
-        // NOVO: Verificar se versículos existem e têm conteúdo
-        if (result.versiculos && Array.isArray(result.versiculos) && result.versiculos.length > 0) {
+        // Tenta fazer o parse da resposta como JSON
+        const result = await response.json();
+
+        // Verifica se a resposta contém o array de versículos e se ele não está vazio
+        if (result.success && result.versiculos && Array.isArray(result.versiculos) && result.versiculos.length > 0) {
             foundVerses = result.versiculos;
-            showVerseSelection();
+            showVerseSelection(); // Chama a função para mostrar a tela de seleção
         } else {
-            showErrorMessage('Nenhum versículo encontrado para este tema. Tente outro termo.');
+            // Se a busca não retornou versículos ou houve um erro na resposta
+            showErrorMessage(result.mensagem || 'Nenhum versículo encontrado para este tema. Tente outro termo.');
         }
 
     } catch (error) {
