@@ -841,49 +841,51 @@ async function exibirRoteiro(roteiro) {
     }
 }
         // Search functions
-        async function searchTheme() {
-            const theme = document.getElementById('theme-input').value.trim();
-            if (!theme) {
-                alert('Por favor, digite um tema!');
-                return;
-            }
+       async function searchTheme() {
+    const theme = document.getElementById('theme-input').value.trim();
+    if (!theme) {
+        alert('Por favor, digite um tema!');
+        return;
+    }
 
-            updateProgress(2, 'Buscando versículos...');
-            showLoading('Buscando versículos sobre "' + theme + '"...');
+    updateProgress(2, 'Buscando versículos...');
+    showLoading('Buscando versículos sobre "' + theme + '"...');
 
-            try {
-                const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-buscar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        termo: theme,
-                        tipo: 'T',
-                        //token: currentToken,
-                        usuario: currentUserId || pastorName
-                    })
-                });
+    try {
+        const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-buscar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                termo: theme,
+                tipo: 'T',
+                usuario: currentUserId || pastorName
+            })
+        });
 
-                const result = await response.json();
+        const result = await response.json();
+        console.log('Resultado completo da API:', result);
 
-                console.log('Resultado completo da API:', result);
-                console.log('Resposta completa do N8N:', result);
-                console.log('Status HTTP:', response.status);
-                console.log('Tipo de result.versiculos:', typeof result.versiculos);
-                
-                if (result.versiculos && result.versiculos.length > 0) {
-                    foundVerses = result.versiculos;
-                    showVerseSelection();
-                } else {
-                    alert('Nenhum versículo encontrado para este tema. Tente outro termo.');
-                    showThemeSearch();
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao buscar versículos. Tente novamente.');
-                showThemeSearch();
-            }
+        // NOVO: Verificar se há erro primeiro
+        if (result.message && !result.success) {
+            // Erro da API (503, etc)
+            showErrorMessage(result.message);
+            return;
         }
 
+        // NOVO: Verificar se versículos existem e têm conteúdo
+        if (result.versiculos && Array.isArray(result.versiculos) && result.versiculos.length > 0) {
+            foundVerses = result.versiculos;
+            showVerseSelection();
+        } else {
+            showErrorMessage('Nenhum versículo encontrado para este tema. Tente outro termo.');
+        }
+
+    } catch (error) {
+        console.error('Erro:', error);
+        showErrorMessage('Erro de conexão. Verifique sua internet e tente novamente.');
+    }
+}
+        
         async function searchVerse() {
             const verse = document.getElementById('verse-input').value.trim();
             if (!verse) {
@@ -1036,6 +1038,24 @@ async function exibirRoteiro(roteiro) {
             }, 3000);
         }
 
+        function showErrorMessage(message) {
+            hideAllScreens();
+    
+            const errorHTML = `
+                <div style="text-align: center; padding: 3rem 2rem;">
+                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                <h2 style="color: #ffd700; margin-bottom: 1rem;">Ops! Algo deu errado</h2>
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; line-height: 1.5;">${message}</p>
+                <button class="primary-button" onclick="showWelcome()" style="max-width: 200px;">
+                    🔄 Tentar Novamente
+                </button>
+            </div>
+            `;
+    
+            document.querySelector('.container').innerHTML = errorHTML;
+            hideProgress();
+       }
+        
         function setupAutoResize() {
             document.querySelectorAll('textarea').forEach(textarea => {
                 textarea.addEventListener('input', function() {
