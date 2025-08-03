@@ -1041,20 +1041,34 @@ async function exibirRoteiro(roteiro) {
         function showErrorMessage(message) {
             hideAllScreens();
     
-            const errorHTML = `
-                <div style="text-align: center; padding: 3rem 2rem;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-                <h2 style="color: #ffd700; margin-bottom: 1rem;">Ops! Algo deu errado</h2>
-                <p style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; line-height: 1.5;">${message}</p>
-                <button class="primary-button" onclick="showWelcome()" style="max-width: 200px;">
-                    🔄 Tentar Novamente
-                </button>
+            // Usar a estrutura existente em vez de destruir tudo
+            const container = document.querySelector('.container');
+    
+            // Criar uma div temporária para o erro
+            let errorScreen = document.getElementById('error-screen');
+            if (!errorScreen) {
+                errorScreen = document.createElement('div');
+                errorScreen.id = 'error-screen';
+                errorScreen.className = 'screen';
+                container.appendChild(errorScreen);
+            }
+    
+            errorScreen.innerHTML = `
+                <div class="input-card">
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                        <h2 style="color: #ffd700; margin-bottom: 1rem;">Ops! Algo deu errado</h2>
+                        <p style="color: rgba(255,255,255,0.9); margin-bottom: 2rem; line-height: 1.5;">${message}</p>
+                        <button class="primary-button" onclick="showWelcome()">
+                        🔄 Tentar Novamente
+                        </button>
+                    </div>
             </div>
             `;
     
-            document.querySelector('.container').innerHTML = errorHTML;
+            errorScreen.classList.add('active');
             hideProgress();
-       }
+        }
         
         function setupAutoResize() {
             document.querySelectorAll('textarea').forEach(textarea => {
