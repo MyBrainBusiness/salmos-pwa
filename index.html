@@ -913,34 +913,41 @@ async function exibirRoteiro(roteiro) {
             showLoading('Buscando ' + verse + '...');
 
             try {
-                const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-buscar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        termo: verse,
-                        tipo: 'L',
-                        //token: currentToken,
-                        usuario: currentUserId || pastorName
-                    })
-                });
+    const response = await fetch('https://n8nwebhook.mybrain.business/webhook/salmos-buscar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            termo: verse,
+            tipo: 'L',
+            usuario: currentUserId || pastorName
+        })
+    });
 
-                const result = await response.json();
-                
-                if (result.versiculo) {
-                    selectedVerse = {
-                        ref: verse,
-                        text: result.versiculo.text
-                    };
-                    generateSermon();
-                } else {
-                    alert('Versículo não encontrado. Verifique a referência e tente novamente.');
-                    showVerseSearch();
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao buscar versículo. Tente novamente.');
-                showVerseSearch();
-            }
+    const responseText = await response.text();
+
+    if (!responseText) {
+        alert('Resposta vazia do servidor. Tente novamente.');
+        showVerseSearch();
+        return;
+    }
+
+    const result = JSON.parse(responseText);
+
+    if (result.versiculo) {
+        selectedVerse = {
+            ref: verse,
+            text: result.versiculo.text
+        };
+        generateSermon();
+    } else {
+        alert('Versículo não encontrado. Verifique a referência e tente novamente.');
+        showVerseSearch();
+    }
+} catch (error) {
+    console.error('Erro:', error);
+    alert('Erro ao buscar versículo. Tente novamente.');
+    showVerseSearch();
+}
         }
 
         function showVerseSelection() {
