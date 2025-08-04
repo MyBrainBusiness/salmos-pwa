@@ -1042,7 +1042,7 @@ async function exibirRoteiro(roteiro) {
                     "${result.versiculo.text}"<br>
                     🔗 Link disponível abaixo
                 `;
-
+                hideProgress();
                 document.getElementById('result-content').innerHTML = content;
                 document.getElementById('result-screen').classList.add('active');
             } else {
@@ -1066,14 +1066,14 @@ async function exibirRoteiro(roteiro) {
 
         function shareSermon() {
             const plainText = document.getElementById('result-content').innerText.trim();
-            const shareText = `🙏 Aqui está minha pregação inspiradora:\n\n${plainText}\n\n📎 Roteiro: ${currentSermonUrl}`;
+            const shareText = `📜 Aqui está minha pregação inspiradora:\n\n${plainText}\n\n📎 Roteiro: ${currentSermonUrl}\n\n⚠️ O link pode demorar até 1 minuto para abrir corretamente.`;
+
 
 
             if (navigator.share) {
                 navigator.share({
                     title: 'Roteiro de Pregação - SALMOS',
-                    text: shareText,
-                    url: currentSermonUrl
+                    text: shareText
                 });
             } else {
                 navigator.clipboard.writeText(shareText).then(() => {
