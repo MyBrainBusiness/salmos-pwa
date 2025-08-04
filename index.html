@@ -520,7 +520,7 @@
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🔥 DEBUG INICIAL: JavaScript carregou!');
-            alert('DEBUG: JavaScript iniciou - se você vê isso, o JS está funcionando');
+         
             // Service Worker
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('service-worker.js', {
@@ -529,7 +529,7 @@
             }
 
             console.log('🔥 DEBUG: Deveria mostrar loading...');
-            alert('DEBUG: Sobre a chamar showLoading');
+           
             //showLoading('Validando acesso seguro...');
             showWelcome(); // Ir direto para welcome
             //showLoading('Validando acesso seguro...');
