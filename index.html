@@ -542,9 +542,17 @@
             }
 
             // Token não precisa mais ser validado - já foi validado no N8N
-            setupPastorGreeting();
-            showWelcome();
-            
+            //setupPastorGreeting();
+            //showWelcome();
+
+            // DEBUG: Pular validação e ir direto para welcome
+            console.log('🔥 DEBUG: Pulando validação de token');
+            setTimeout(() => {
+                console.log('🔥 DEBUG: Configurando saudação...');
+                setupPastorGreeting();
+                console.log('🔥 DEBUG: Chamando showWelcome...');
+                showWelcome();
+            }, 1000);
             // Validar token imediatamente
             //validateTokenSecurity();
 
