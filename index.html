@@ -953,11 +953,10 @@ async function exibirRoteiro(roteiro) {
 
     // Mostrar resultado na tela
     const content = `
-        ✅ Sua pregação está pronta!<br><br>
-        <strong>${result.versiculo.ref}</strong><br>
-        "${result.versiculo.text}"<br><br>
-        <a href="${result.html_url}" target="_blank" style="color: #ffd700; font-weight: bold;">🔗 Acessar roteiro no GitHub</a>
-    `;
+       ✅ Sua pregação está pronta!<br><br>
+    <strong>${result.versiculo.ref}</strong><br>
+    "${result.versiculo.text}"<br><br>
+    🔗 Link disponível no botão abaixo `;
 
     document.getElementById('result-content').innerHTML = content;
     document.getElementById('result-screen').classList.add('active');
@@ -1051,19 +1050,25 @@ async function exibirRoteiro(roteiro) {
         }
 
         function shareSermon() {
-            const content = document.getElementById('result-content').textContent;
-            
+            const content = document.getElementById('result-content').innerHTML;
+            const plainText = content.replace(/<[^>]+>/g, '').trim();
+
+            const resultUrl = plainText.match(/https?:\/\/[^\s]+/g)?.[0];
+
+            const shareText = `🙏 Aqui está sua pregação inspiradora:\n\n${plainText}\n\n🔗 Roteiro: ${resultUrl}`;
+
             if (navigator.share) {
                 navigator.share({
                     title: 'Roteiro de Pregação - SALMOS',
-                    text: content
+                    text: shareText
                 });
             } else {
-                navigator.clipboard.writeText(content).then(() => {
-                    alert('✅ Roteiro copiado para área de transferência!');
-                });
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('✅ Roteiro copiado com link. Cole no WhatsApp ou onde quiser!');
+                });    
             }
         }
+
 
         function showSecurityError(message, code = '') {
             hideAllScreens();
