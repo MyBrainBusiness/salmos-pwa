@@ -1066,7 +1066,8 @@ async function exibirRoteiro(roteiro) {
 
         function shareSermon() {
             const plainText = document.getElementById('result-content').innerText.trim();
-            const shareText = `🙏 Aqui está minha pregação inspiradora:\n\n${plainText}\n\n🔗 Roteiro: ${currentSermonUrl}`;
+            const shareText = `🙏 Aqui está minha pregação inspiradora:\n\n${plainText}\n\n📎 Roteiro: ${currentSermonUrl}`;
+
 
             if (navigator.share) {
                 navigator.share({
