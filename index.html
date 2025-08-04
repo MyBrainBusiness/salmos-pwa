@@ -486,14 +486,14 @@
                 <div class="back-button" onclick="showWelcome()">← Nova Busca</div>
                 <div class="input-label">✨ Escolha o versículo para sua pregação:</div>
                 <div class="verse-list" id="verse-list"></div>
-                <button class="primary-button" id="generate-button" onclick="generateSermon()" style="display: none;">🔥 Gerar Roteiro de Pregação</button>
+                <button class="primary-button" id="generate-button" onclick="generateSermon()" style="display: none;">🔥 Gerar Roteiro da Pregação</button>
             </div>
         </div>
 
         <!-- Result Screen -->
         <div id="result-screen" class="screen">
             <div class="input-card">
-                <div class="back-button" onclick="showWelcome()">← Nova Pregação</div>
+                <!--<div class="back-button" onclick="showWelcome()">← Nova Pregação</div>-->
                 <div class="input-label">🎯 Seu Roteiro de Pregação:</div>
                 <div class="result-content" id="result-content"></div>
                 <button class="primary-button" onclick="shareSermon()">📱 Compartilhar Pregação</button>
@@ -957,8 +957,8 @@ async function exibirRoteiro(roteiro) {
     const content = `
        ✅ Sua pregação está pronta!<br><br>
     <strong>${result.versiculo.ref}</strong><br>
-    "${result.versiculo.text}"<br><br>
-    🔗 Link disponível no botão abaixo `;
+    "${result.versiculo.text}"<br>
+    🔗 Link disponível abaixo `;
 
     currentSermonUrl = result.html_url;
 
@@ -1039,8 +1039,8 @@ async function exibirRoteiro(roteiro) {
                 const content = `
                     ✅ Sua pregação está pronta!<br><br>
                     <strong>${result.versiculo.ref}</strong><br>
-                    "${result.versiculo.text}"<br><br>
-                    🔗 Link copiado no botão abaixo
+                    "${result.versiculo.text}"<br>
+                    🔗 Link disponível abaixo
                 `;
 
                 document.getElementById('result-content').innerHTML = content;
