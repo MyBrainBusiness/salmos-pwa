@@ -984,7 +984,7 @@ async function exibirRoteiro(roteiro) {
             showLoading('Criando seu roteiro inspirador...');
 
             try {
-                const response = await fetch('https://n8neditor.mybrain.business/webhook/salmos-gerar', {
+                const response = await fetch('https://n8nwebhook.mybrain.business/webhook/salmos-gerar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
