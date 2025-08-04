@@ -948,11 +948,14 @@ async function exibirRoteiro(roteiro) {
     const result = JSON.parse(responseText);
 
    if (result.versiculo && result.html_url) {
+    // Não seta selectedVerse nem mostra botão nenhum
+    selectedVerse = null;
+    hideProgress();
+    showWelcome();
     window.open(result.html_url, '_blank');
-    } else {
-        alert('Versículo não encontrado. Verifique a referência e tente novamente.');
-        showVerseSearch();
-    }
+    return;
+}
+
 
 } catch (error) {
     console.error('Erro:', error);
@@ -993,6 +996,8 @@ async function exibirRoteiro(roteiro) {
         }
 
         async function generateSermon() {
+            console.log('⚠️ generateSermon() FOI CHAMADO');
+
             if (!selectedVerse) {
                 alert('Selecione um versículo primeiro!');
                 return;
