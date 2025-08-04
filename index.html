@@ -877,7 +877,7 @@ async function exibirRoteiro(roteiro) {
     }
 
     updateProgress(2, 'Buscando versículos...');
-    showLoading('Buscando versículos sobre "' + theme + '"...');
+    showLoading('Buscando versículos sobre "' + theme + '"... Aguarde.');
 
     try {
         const response = await fetch('https://n8nwebhook.mybrain.business/webhook/salmos-buscar', {
@@ -924,7 +924,7 @@ async function exibirRoteiro(roteiro) {
             }
 
             updateProgress(2, 'Buscando versículo...');
-            showLoading('Buscando ' + verse + '...');
+            showLoading('Buscando ' + verse + '... Aguarde.');
 
             try {
     const response = await fetch('https://n8nwebhook.mybrain.business/webhook/salmos-buscar', {
