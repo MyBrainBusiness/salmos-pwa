@@ -516,6 +516,8 @@
         let foundVerses = [];
         let currentStep = 0;
         let totalSteps = 4;
+        let currentSermonUrl = '';
+
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
@@ -958,6 +960,8 @@ async function exibirRoteiro(roteiro) {
     "${result.versiculo.text}"<br><br>
     🔗 Link disponível no botão abaixo `;
 
+    currentSermonUrl = result.html_url;
+
     document.getElementById('result-content').innerHTML = content;
     document.getElementById('result-screen').classList.add('active');
 
@@ -1029,12 +1033,23 @@ async function exibirRoteiro(roteiro) {
 
                 const result = await response.json();
                 
-                if (result.roteiro) {
-                    exibirRoteiro(result.roteiro);
-                } else {
-                    alert('Erro ao gerar roteiro. Tente novamente.');
-                    showWelcome();
-                }
+               if (result.html_url && result.versiculo) {
+                currentSermonUrl = result.html_url;
+
+                const content = `
+                    ✅ Sua pregação está pronta!<br><br>
+                    <strong>${result.versiculo.ref}</strong><br>
+                    "${result.versiculo.text}"<br><br>
+                    🔗 Link copiado no botão abaixo
+                `;
+
+                document.getElementById('result-content').innerHTML = content;
+                document.getElementById('result-screen').classList.add('active');
+            } else {
+                alert('Erro ao gerar roteiro. Tente novamente.');
+                showWelcome();
+            }
+
             } catch (error) {
                 console.error('Erro:', error);
                 alert('Erro ao gerar roteiro. Tente novamente.');
@@ -1050,24 +1065,22 @@ async function exibirRoteiro(roteiro) {
         }
 
         function shareSermon() {
-            const content = document.getElementById('result-content').innerHTML;
-            const plainText = content.replace(/<[^>]+>/g, '').trim();
-
-            const resultUrl = plainText.match(/https?:\/\/[^\s]+/g)?.[0];
-
-            const shareText = `🙏 Aqui está sua pregação inspiradora:\n\n${plainText}\n\n🔗 Roteiro: ${resultUrl}`;
+            const plainText = document.getElementById('result-content').innerText.trim();
+            const shareText = `🙏 Aqui está minha pregação inspiradora:\n\n${plainText}\n\n🔗 Roteiro: ${currentSermonUrl}`;
 
             if (navigator.share) {
                 navigator.share({
                     title: 'Roteiro de Pregação - SALMOS',
-                    text: shareText
+                    text: shareText,
+                    url: currentSermonUrl
                 });
             } else {
                 navigator.clipboard.writeText(shareText).then(() => {
-                    alert('✅ Roteiro copiado com link. Cole no WhatsApp ou onde quiser!');
-                });    
+                    alert('✅ Link copiado com sucesso! Cole no WhatsApp ou onde quiser.');
+                });
             }
         }
+
 
 
         function showSecurityError(message, code = '') {
