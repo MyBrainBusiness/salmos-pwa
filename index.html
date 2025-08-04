@@ -948,13 +948,14 @@ async function exibirRoteiro(roteiro) {
     const result = JSON.parse(responseText);
 
    if (result.versiculo && result.html_url) {
-    // Não seta selectedVerse nem mostra botão nenhum
-    selectedVerse = null;
+    hideAllScreens(); // Garante que nenhuma tela, nem selection-screen, fique ativa
     hideProgress();
-    showWelcome();
+
+    // Abre o roteiro direto
     window.open(result.html_url, '_blank');
     return;
 }
+
 
 
 } catch (error) {
