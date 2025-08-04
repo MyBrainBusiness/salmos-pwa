@@ -947,16 +947,13 @@ async function exibirRoteiro(roteiro) {
 
     const result = JSON.parse(responseText);
 
-    if (result.versiculo) {
-        selectedVerse = {
-            ref: verse,
-            text: result.versiculo.text
-        };
-        generateSermon();
+   if (result.versiculo && result.html_url) {
+    window.open(result.html_url, '_blank');
     } else {
         alert('Versículo não encontrado. Verifique a referência e tente novamente.');
         showVerseSearch();
     }
+
 } catch (error) {
     console.error('Erro:', error);
     alert('Erro ao buscar versículo. Tente novamente.');
