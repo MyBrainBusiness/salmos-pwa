@@ -429,7 +429,7 @@
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="screen active">
             <div class="welcome-card">
-                <div class="pastor-greeting">🙌 Paz do Senhor</span>, <span id="pastor-title">Pastor(a)</span> <span id="pastor-name">...</span>!</div>
+                <div class="pastor-greeting">🙌 Paz do Senhor, <span id="pastor-title">Pastor(a)</span> <span id="pastor-name">...</span>!</div>
                 <p class="welcome-text">Escolha como deseja criar sua pregação inspiradora:</p>
             </div>
 
@@ -609,7 +609,7 @@
                 const isFemale = feminineNames.some(name => firstName.includes(name)) || 
                                  firstName.endsWith('a') && !firstName.endsWith('ria');
                 
-                document.getElementById('gender-suffix').textContent = isFemale ? 'a' : 'o';
+                //document.getElementById('gender-suffix').textContent = isFemale ? 'a' : 'o';
                 document.getElementById('pastor-title').textContent = isFemale ? 'Pastora' : 'Pastor';
                 document.getElementById('pastor-name').textContent = pastorName;
             } else {
