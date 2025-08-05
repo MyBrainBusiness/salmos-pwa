@@ -1038,13 +1038,14 @@ if (!responseText) {
                 currentSermonUrl = result.html_url;
 
                 const content = `
-                    ✅ Sua pregação está pronta!<br><br>
+                    ✅ Sua pregação está pronta!<br>
                     <strong>${result.versiculo.ref}</strong><br>
                     "${result.versiculo.text}"<br>
                     🔗 Link disponível abaixo
                 `;
                 hideProgress();
                 document.getElementById('result-content').innerHTML = content;
+                hideAllScreens();   
                 document.getElementById('result-screen').classList.add('active');
             } else {
                 alert('Erro ao gerar roteiro. Tente novamente.');
