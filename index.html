@@ -939,10 +939,10 @@ async function exibirRoteiro(roteiro) {
         })
     });
 
-   const result = await response.json();
+   const responseText = await response.text();
 
-if (!result || !result.versiculo) {
-    alert('Versículo não encontrado. Verifique a referência e tente novamente.');
+if (!responseText) {
+    alert('Resposta vazia do servidor. Tente novamente.');
     showVerseSearch();
     return;
 }
